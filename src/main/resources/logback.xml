@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <!--console 控制台调试日志  -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder charset="UTF-8">
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} %line %method - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+    <appender name="platform-all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/platform/platform-all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/platform/platform-all.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} %line %method - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="platform-info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/platform/platform-info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/platform/platform-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} %line %method - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="platform-warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/platform/platform-warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/platform/platform-warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} %line %method - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="platform-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/platform/platform-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/platform/platform-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} %line %method - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- OMM所有包的日志 -->
+    <logger name="com.platform" level="INFO"/>
+	<!--log4jdbc:连SQL带执行时间打印出来 -->
+	<logger name="jdbc.sqltiming" level="INFO"/>
+	<!--log4jdbc:只打印SQL不带执行时间 -->
+	<!--
+	<logger name="jdbc.sqlonly" level="INFO"/>
+	 -->
+	<root level="INFO">
+		<appender-ref ref="console" />
+		<appender-ref ref="platform-all" />
+		<appender-ref ref="platform-info" />
+		<appender-ref ref="platform-warn" />
+		<appender-ref ref="platform-error" />
+	</root>
+</configuration>

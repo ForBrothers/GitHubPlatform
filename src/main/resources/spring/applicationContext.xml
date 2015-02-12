@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+        >
+    <!-- 定义受环境影响易变的变量 -->
+    <context:property-placeholder location="classpath:/spring/applicationContext.properties" />
+
+    <import resource="spring-datasource.xml"/>
+
+    <!-- start开启注释 -->
+    <context:component-scan base-package="com.platform.*"/>
+    <mvc:annotation-driven/>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--  需要被拦截的路径 -->
+            <mvc:mapping path="/**"/>
+            <!-- 拦截处理的interceptor -->
+            <bean id="loginInterceptor" class="com.platform.frame.login.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!-- end开始注释 -->
+
+    <!-- 全局异常配置 start -->
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">/errors/error</prop>
+                <prop key="java.lang.Throwable">/errors/err</prop>
+            </props>
+        </property>
+        <property name="statusCodes">
+            <props>
+                <prop key="errors/error">500</prop>
+                <prop key="errors/404">404</prop>
+            </props>
+        </property>
+        <!-- 设置日志输出级别，不定义则默认不输出警告等错误日志信息 -->
+        <property name="warnLogCategory" value="WARN"></property>
+        <!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 -->
+        <property name="defaultErrorView" value="errors/error"></property>
+        <!-- 默认HTTP状态码 -->
+        <property name="defaultStatusCode" value="500"></property>
+    </bean>
+    <!-- 全局异常配置 end -->
+
+</beans>
