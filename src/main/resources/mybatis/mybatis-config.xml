@@ -30,8 +30,8 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
-    <!--<plugins>
-        &lt;!&ndash;分页查询拦截器&ndash;&gt;
-        &lt;!&ndash;<plugin interceptor="com.citicbank.cloudbase.omm.common.dao.interceptor.PaginationInterceptor"></plugin>&ndash;&gt;
-    </plugins>-->
+    <plugins>
+        <!--分页查询拦截器-->
+        <plugin interceptor="com.platform.frame.common.interceptor.PaginationInterceptor"></plugin>
+    </plugins>
 </configuration>
